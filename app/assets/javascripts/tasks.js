@@ -12,8 +12,10 @@ $(function() {
             " data-id='" + task.id + "'" +
             checkedStatus +
             '><label>' +
-            task.title +
-            '</label></div></li>';
+            task.title + '<button class="close"'  +
+                    " data-id='" + task.id + "'" +
+                    '>&times;</button>' +
+        '</label></div></li>';
 
         return liElement;
     }
@@ -32,16 +34,30 @@ $(function() {
             task: {
                 done: doneValue
             }
-        }).success(function(data){
+        }).success(function(data) {
             var liHtml = taskHtml(data);
             var $li = $("#listItem-" + data.id);
             $li.replaceWith(liHtml);
             $('.toggle').change(toggleTask);
+            $('.close').click(deleteTask);
+
+        } );
+    }
+    function deleteTask(e) {
+        var itemId = $(e.target).data("id");
+
+        e.target.parentElement.remove();
+
+
+        $.post("/tasks/" + itemId, {
+            _method: 'delete'
+        }).success(function(data){
         });
     }
 
     $.get("/tasks").success( function( data ) {
         var htmlString = "";
+        var liHtml = taskHtml(data);
 
         $.each(data, function(index,  task) {
             htmlString += taskHtml(task);
@@ -50,8 +66,10 @@ $(function() {
         ulTodos.html(htmlString);
 
         $('.toggle').change(toggleTask);
+        $('.close').click(deleteTask);
 
     });
+
 
     $('#new-form').submit(function(event) {
         event.preventDefault();
@@ -66,6 +84,7 @@ $(function() {
             var uITodos = $('.todo-list');
             uITodos.append(htmlString);
             $('.toggle').click(toggleTask);
+            $('.close').click(deleteTask);
             $('.new-todo').val('');
         });
     });
