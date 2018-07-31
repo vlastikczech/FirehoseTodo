@@ -12,10 +12,10 @@ $(function() {
             " data-id='" + task.id + "'" +
             checkedStatus +
             '><label>' +
-            task.title + '<button class="close"'  +
+            task.title + '</label>'+'<button class="close"'  +
                     " data-id='" + task.id + "'" +
                     '>&times;</button>' +
-        '</label></div></li>';
+        '</div></li>';
 
         return liElement;
     }
@@ -40,24 +40,25 @@ $(function() {
             $li.replaceWith(liHtml);
             $('.toggle').change(toggleTask);
             $('.close').click(deleteTask);
-
         } );
     }
+    // deleteTask takes the data attribute
+    // performs an API request to delete
     function deleteTask(e) {
+        event.preventDefault();
         var itemId = $(e.target).data("id");
 
-        e.target.parentElement.remove();
 
 
         $.post("/tasks/" + itemId, {
             _method: 'delete'
         }).success(function(data){
+            e.target.parentElement.remove();
         });
     }
 
     $.get("/tasks").success( function( data ) {
         var htmlString = "";
-        var liHtml = taskHtml(data);
 
         $.each(data, function(index,  task) {
             htmlString += taskHtml(task);
