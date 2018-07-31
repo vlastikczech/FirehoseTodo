@@ -12,9 +12,9 @@ $(function() {
             " data-id='" + task.id + "'" +
             checkedStatus +
             '><label>' +
-            task.title + '</label>'+'<button class="close"'  +
+            task.title + '</label>'+'<button class="destroy"'  +
                     " data-id='" + task.id + "'" +
-                    '>&times;</button>' +
+                    '></button>' +
         '</div></li>';
 
         return liElement;
@@ -29,6 +29,9 @@ $(function() {
 
         var doneValue = Boolean($(e.target).is(':checked'));
 
+        var uITodos = $.makeArray('.todo-list');
+
+
         $.post("/tasks/" + itemId, {
             _method: "PUT",
             task: {
@@ -36,24 +39,24 @@ $(function() {
             }
         }).success(function(data) {
             var liHtml = taskHtml(data);
+            console.log(data.done)
             var $li = $("#listItem-" + data.id);
             $li.replaceWith(liHtml);
             $('.toggle').change(toggleTask);
-            $('.close').click(deleteTask);
+            $('.destroy').click(deleteTask);
+
         } );
     }
     // deleteTask takes the data attribute
     // performs an API request to delete
     function deleteTask(e) {
-        event.preventDefault();
         var itemId = $(e.target).data("id");
-
 
 
         $.post("/tasks/" + itemId, {
             _method: 'delete'
-        }).success(function(data){
-            e.target.parentElement.remove();
+        }).success(function(data) {
+            e.target.parentElement.remove()
         });
     }
 
@@ -67,7 +70,7 @@ $(function() {
         ulTodos.html(htmlString);
 
         $('.toggle').change(toggleTask);
-        $('.close').click(deleteTask);
+        $('.destroy').click(deleteTask)
 
     });
 
@@ -85,7 +88,7 @@ $(function() {
             var uITodos = $('.todo-list');
             uITodos.append(htmlString);
             $('.toggle').click(toggleTask);
-            $('.close').click(deleteTask);
+            $('.destroy').click(deleteTask);
             $('.new-todo').val('');
         });
     });
