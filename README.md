@@ -1,24 +1,29 @@
-# README
+# Todo
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Built by Vlastik Walker, originally designed by Firehose Project 
+http://thefirehoseproject.com/
 
-Things you may want to cover:
+## About
 
-* Ruby version
+* Allows users to rapidly add dynamic content
+* Allows users to delete dynamic contant
+* Allows user to cross out the content when finished with their task
+* Application built with fluid user interface through javascript
 
-* System dependencies
+## Languages used
 
-* Configuration
+* HTML
+* CSS
+* Ruby
+* Ruby on Rails
+* Javascript
 
-* Database creation
+## Get started
 
-* Database initialization
+```
+git clone https://github.com/vlastikczech/ToDo.git
+```
 
-* How to run the test suite
+## Thanks
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Thank you for checking out my project, feel free to contribute if you'd like!
